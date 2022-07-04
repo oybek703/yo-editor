@@ -1,9 +1,13 @@
 import ReactDOM from 'react-dom'
 import React from 'react'
+import Parent from './props/Parent'
 
 const App = () => {
     return (
-        <h1>Hello Typescript</h1>
+        <div>
+            <h1>Hello Typescript</h1>
+            <Parent/>
+        </div>
     )
 }
 

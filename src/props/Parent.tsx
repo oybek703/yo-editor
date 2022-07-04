@@ -1,10 +1,19 @@
 import React from 'react'
-import {Child} from './Child'
+import {ChildAsFC} from './Child'
 
 const Parent = () => {
+
     return (
         <>
-            <Child color="blue"/>
+            {/*<Child*/}
+            {/*    handleClick={console.log.bind(null, 'Button clicked!')}*/}
+            {/*    color="blue">*/}
+            {/*    test*/}
+            {/*</Child>*/}
+            <ChildAsFC color="blue"
+                       handleClick={console.log.bind(null, 'Click in ChildAsFC')}>
+                test
+            </ChildAsFC>
         </>
     )
 }
