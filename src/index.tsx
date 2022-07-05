@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom'
 import React, {useEffect, useRef, useState} from 'react'
 import * as esbuild from 'esbuild-wasm'
+import {unpkgPathPlugin} from './plugins/unpkg-path-plugin'
 
 function App() {
   const ref = useRef<any>()
@@ -17,11 +18,18 @@ function App() {
 
   async function handleSubmit() {
     if (ref.current) {
-      const {code} = await esbuild.transform(input, {
-        loader: 'jsx',
-        target: 'es2015',
+      // const {code} = await esbuild.transform(input, {
+      //   loader: 'jsx',
+      //   target: 'es2015',
+      // })
+      const {outputFiles: [obj1]} = await esbuild.build({
+        entryPoints: ['index.js'],
+        bundle: true,
+        write: false,
+        plugins: [unpkgPathPlugin()]
       })
-      setCode(code)
+      const {text: generatedCode} = obj1
+      setCode(generatedCode)
     }
   }
 
