@@ -1,25 +1,29 @@
 import ReactDOM from 'react-dom'
-import React from 'react'
-import GuestList from "./state/GuestList"
-import UserSearch from "./state/UserSearch"
-import EventComponent from "./events/EventComponent"
+import React, {useEffect, useState} from 'react'
+import * as esbuild from 'esbuild-wasm'
 
-const App = () => {
-    return (
-        <div>
-            <h1>Hello Typescript</h1>
-            <GuestList/>
-            <hr/>
-            <UserSearch/>
-            <hr/>
-            <EventComponent/>
-        </div>
-    )
+function App() {
+  const [input, setInput] = useState('')
+  async function startService() {
+    const service = await esbuild.initialize({
+      worker: true,
+      wasmURL: '/esbuild.wasm'
+    })
+    console.log(service)
+  }
+  function handleSubmit() {
+    console.log(input)
+  }
+
+  useEffect(() => {
+    startService()
+  }, [])
+  return <div>
+    <textarea value={input} onChange={({target: {value}}) => setInput(value)}/>
+    <br/>
+    <button onClick={handleSubmit}>Submit</button>
+    <pre/>
+  </div>
 }
 
-ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-    document.getElementById('root')
-)
+ReactDOM.render(<App/>, document.getElementById('root'))
