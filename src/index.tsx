@@ -1,18 +1,28 @@
 import ReactDOM from 'react-dom'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import * as esbuild from 'esbuild-wasm'
 
 function App() {
-  const [input, setInput] = useState('')
+  const ref = useRef<any>()
+  const [input, setInput] = useState<string>('')
+  const [code, setCode] = useState<string>('')
+
   async function startService() {
-    const service = await esbuild.initialize({
+    await esbuild.initialize({
       worker: true,
-      wasmURL: '/esbuild.wasm'
+      wasmURL: '/esbuild.wasm',
     })
-    console.log(service)
+    ref.current = true
   }
-  function handleSubmit() {
-    console.log(input)
+
+  async function handleSubmit() {
+    if (ref.current) {
+      const {code} = await esbuild.transform(input, {
+        loader: 'jsx',
+        target: 'es2015',
+      })
+      setCode(code)
+    }
   }
 
   useEffect(() => {
@@ -22,7 +32,13 @@ function App() {
     <textarea value={input} onChange={({target: {value}}) => setInput(value)}/>
     <br/>
     <button onClick={handleSubmit}>Submit</button>
-    <pre/>
+    <hr/>
+    {code && <pre style={{
+      maxWidth: '90vw',
+      maxHeight: '90hv',
+      overflowX: 'scroll',
+      overflowY: 'scroll'
+    }}>{code}</pre>}
   </div>
 }
 
