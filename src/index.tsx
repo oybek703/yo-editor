@@ -34,7 +34,7 @@ function App() {
     startService()
   }, [])
   return <div>
-    <textarea value={input} onChange={({target: {value}}) => setInput(value)}/>
+    <textarea rows={3} cols={30} value={input} onChange={({target: {value}}) => setInput(value)}/>
     <br/>
     <button onClick={handleSubmit}>Submit</button>
     <hr/>
