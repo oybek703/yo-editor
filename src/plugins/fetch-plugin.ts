@@ -8,15 +8,32 @@ export const fetchPlugin = (inputCode: string) => {
   return {
     name: 'fetch-plugin',
     setup(build: esbuild.PluginBuild) {
-      build.onLoad({filter: /.*/, namespace: 'a'}, async (args: any) => {
-        if (args.path === 'index.js') {
-          return {
-            loader: 'jsx',
-            contents: inputCode,
-          }
+      // Load main index.js file
+      build.onLoad({filter: /^index\.js$/}, (args: any) => ({loader: 'jsx', contents: inputCode}))
+
+      // Load css module files
+      build.onLoad({filter: /\.css$/}, async (args: any) => {
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
+        if (cachedResult) return cachedResult
+        const {data, request} = await axios.get(args.path)
+        const escaped = data.replace(/\n/g, '').replace(/"/g, '\\"').replace(/'/g, "\\'")
+        const contents = `
+            const style = document.createElement('style')
+            style.innerText = '${escaped}'
+            document.head.appendChild(style)
+        `
+        const result: esbuild.OnLoadResult = {
+          loader: 'css',
+          contents,
+          resolveDir: new URL('./', request.responseURL).pathname,
         }
-        // const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
-        // if (cachedResult) return cachedResult
+        await fileCache.setItem(args.path, result)
+        return result
+      })
+      
+      build.onLoad({filter: /.*/, namespace: 'a'}, async (args: any) => {
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
+        if (cachedResult) return cachedResult
         const {data, request} = await axios.get(args.path)
         const fileType = args.path.match(/\.css$/) ? 'css' : 'jsx'
         const escaped = data.replace(/\n/g, '').replace(/"/g, '\\"').replace(/'/g, "\\'")
@@ -30,7 +47,7 @@ export const fetchPlugin = (inputCode: string) => {
           contents,
           resolveDir: new URL('./', request.responseURL).pathname,
         }
-        // await fileCache.setItem(args.path, result)
+        await fileCache.setItem(args.path, result)
         return result
       })
     },
