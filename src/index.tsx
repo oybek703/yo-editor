@@ -5,14 +5,14 @@ import {unpkgPathPlugin} from './plugins/unpkg-path-plugin'
 import {fetchPlugin} from './plugins/fetch-plugin'
 
 function App() {
-  const ref = useRef<any>()
+  const ref = useRef<any>(null)
   const [input, setInput] = useState<string>('')
   const [code, setCode] = useState<string>('')
 
   async function startService() {
     await esbuild.initialize({
       worker: true,
-      wasmURL: '/esbuild.wasm',
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.14.48/esbuild.wasm',
     })
     ref.current = true
   }

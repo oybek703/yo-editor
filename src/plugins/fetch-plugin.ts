@@ -11,10 +11,14 @@ export const fetchPlugin = (inputCode: string) => {
       // Load main index.js file
       build.onLoad({filter: /^index\.js$/}, (args: any) => ({loader: 'jsx', contents: inputCode}))
 
-      // Load css module files
-      build.onLoad({filter: /\.css$/}, async (args: any) => {
+      // Load module if cached
+      build.onLoad({filter: /\.*/}, async (args: any) => {
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
         if (cachedResult) return cachedResult
+      })
+
+      // Load css module files
+      build.onLoad({filter: /\.css$/}, async (args: any) => {
         const {data, request} = await axios.get(args.path)
         const escaped = data.replace(/\n/g, '').replace(/"/g, '\\"').replace(/'/g, "\\'")
         const contents = `
@@ -30,21 +34,12 @@ export const fetchPlugin = (inputCode: string) => {
         await fileCache.setItem(args.path, result)
         return result
       })
-      
+
       build.onLoad({filter: /.*/, namespace: 'a'}, async (args: any) => {
-        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
-        if (cachedResult) return cachedResult
         const {data, request} = await axios.get(args.path)
-        const fileType = args.path.match(/\.css$/) ? 'css' : 'jsx'
-        const escaped = data.replace(/\n/g, '').replace(/"/g, '\\"').replace(/'/g, "\\'")
-        const contents = fileType === 'css' ? `
-            const style = document.createElement('style')
-            style.innerText = '${escaped}'
-            document.head.appendChild(style)
-        ` : data
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
-          contents,
+          contents: data,
           resolveDir: new URL('./', request.responseURL).pathname,
         }
         await fileCache.setItem(args.path, result)
