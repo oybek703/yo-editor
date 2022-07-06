@@ -5,20 +5,28 @@ export const unpkgPathPlugin = () => {
   return {
     name: 'unpkg-path-plugin',
     setup(build: esbuild.PluginBuild) {
-      build.onResolve({ filter: /.*/ }, async (args: any) => {
+      build.onResolve({filter: /.*/}, async (args: any) => {
         console.log('onResolve', args)
-        if(args.path === 'index.js') return { path: args.path, namespace: 'a' }
-        else return {path: 'https://unpkg.com/tiny-test-pkg@1.0.0/index.js', namespace: 'a'}
+        if (args.path === 'index.js') return {path: args.path, namespace: 'a'}
+        if (args.path.includes('./') || args.path.includes('../')) {
+          return {
+            namespace: 'a',
+            path: new URL(args.path, `${args.importer}/`).href,
+          }
+        } else return {
+          path: `https://unpkg.com/${args.path}`,
+          namespace: 'a',
+        }
       })
 
-      build.onLoad({ filter: /.*/, namespace: 'a' }, async (args: any) => {
+      build.onLoad({filter: /.*/, namespace: 'a'}, async (args: any) => {
         console.log('onLoad', args)
 
         if (args.path === 'index.js') {
           return {
             loader: 'jsx',
             contents: `
-              const message = require('tiny-test-pkg')
+              import message from 'medium-test-pkg'
               console.log(message)
             `,
           }
@@ -26,7 +34,7 @@ export const unpkgPathPlugin = () => {
         const {data} = await axios.get(args.path)
         return {
           loader: 'jsx',
-          contents: data
+          contents: data,
         }
       })
     },
