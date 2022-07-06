@@ -12,7 +12,7 @@ export const unpkgPathPlugin = () => {
           return {
             namespace: 'a',
             path: new URL(args.path,
-                `https://unpkg.com/${args.resolveDir}/`).href,
+                `https://unpkg.com${args.resolveDir}/`).href,
           }
         } else return {
           path: `https://unpkg.com/${args.path}`,
@@ -30,7 +30,8 @@ export const unpkgPathPlugin = () => {
               import React from 'react'
               import ReactDOM from 'react-dom'
               import _ from 'lodash'
-              console.log(React, ReactDOM, _)
+              import ReactSelect from 'react-select'
+              console.log(React, ReactDOM, _, ReactSelect)
             `,
           }
         }
