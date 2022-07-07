@@ -37,7 +37,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({defaultValue, value, handleChang
   return (
       <div className='editor-wrapper'>
         {monacoEditorRef.current &&
-        <button className='btn btn-sm btn-success format-btn px-1 py-0'
+        <button className='btn btn-sm btn-outline-success format-btn px-1 py-0'
                 title='Format code'
                 onClick={handleFormat}>
           <i className="bi bi-code-square"/>
