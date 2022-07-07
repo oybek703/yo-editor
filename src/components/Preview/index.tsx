@@ -13,13 +13,20 @@ const html = `<html lang="en">
               </head>
               <body><div id="root"/></body>
               <script>
+                  function handleError(error) {
+                    const root = document.querySelector('#root')
+                    root.innerHTML = '<div style="color: red;"><h4>Error</h4>' + error + '</div>'
+                    console.error(e)
+                  }
+                  window.addEventListener('error', (event) => {
+                    event.preventDefault()
+                    handleError(event.error)
+                  })
                   window.addEventListener('message', event => {
                     try {
                       eval(event.data)
                     } catch (e) {
-                      const root = document.querySelector('#root')
-                      root.innerHTML = '<div style="color: red;"><h4>Error</h4>' + e + '</div>'
-                      console.error(e)
+                        handleError(e)  
                     }
                   }, false)
                   </script>

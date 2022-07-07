@@ -9,7 +9,7 @@ interface ResizableProps {
 const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({direction, children}) => {
   const [innerHeight, setInnerHeight] = useState(window.innerHeight)
   const [innerWidth, setInnerWidth] = useState(window.innerWidth)
-  const [width, setWidth] = useState(window.innerWidth * 0.75)
+  const [width, setWidth] = useState(window.innerWidth * 0.5)
   let resizableProps: ResizableBoxProps
   if (direction === 'vertical') {
     resizableProps = {
@@ -23,7 +23,7 @@ const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({
     resizableProps = {
       className: 'resize-horizontal',
       minConstraints: [innerWidth * 0.2, Infinity],
-      maxConstraints: [innerWidth * 0.75, Infinity],
+      maxConstraints: [innerWidth * 0.5, Infinity],
       height: Infinity,
       width: width,
       resizeHandles: ['e'],
@@ -40,7 +40,7 @@ const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({
         setInnerHeight(window.innerHeight)
         setInnerWidth(window.innerWidth)
         if (window.innerWidth < width) {
-          setWidth(window.innerWidth * 0.75)
+          setWidth(window.innerWidth * 0.5)
         }
       }, 200)
     }
