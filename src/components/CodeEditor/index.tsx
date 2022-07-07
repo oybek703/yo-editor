@@ -14,15 +14,21 @@ const CodeEditor: React.FC<CodeEditorProps> = ({defaultValue, value, handleChang
   const monacoEditorRef = useRef<any>(null)
 
   function handleFormat() {
-    const unFormattedCode = monacoEditorRef.current.getValue()
-    const formattedCode = prettier.format(unFormattedCode, {
-      parser: 'babel',
-      plugins: [parser],
-      useTabs: true,
-      semi: false,
-      singleQuote: true
-    }).replace(/\n$/, '')
-    monacoEditorRef.current.setValue(formattedCode)
+    try {
+      const unFormattedCode = monacoEditorRef.current.getValue()
+      const formattedCode = prettier.format(unFormattedCode, {
+        parser: 'babel',
+        plugins: [parser],
+        useTabs: true,
+        semi: false,
+        singleQuote: true
+      }).replace(/\n$/, '')
+      monacoEditorRef.current.setValue(formattedCode)
+    } catch (e) {
+      const message = String(e)
+      alert(message)
+      console.error(e)
+    }
   }
 
   const handleMount: OnMount = (editor) => {
