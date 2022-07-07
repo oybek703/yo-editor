@@ -28,6 +28,7 @@ const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({
       width: width,
       resizeHandles: ['e'],
       onResizeStop: function(_, data) {
+        console.log(data.size.width)
         setWidth(data.size.width)
       }
     }
@@ -35,11 +36,13 @@ const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({
   useEffect(() => {
     const listener = function() {
       let timer: any
-      if(timer) clearTimeout(timer)
+      if (timer) clearTimeout(timer)
       timer = setTimeout(() => {
         setInnerHeight(window.innerHeight)
         setInnerWidth(window.innerWidth)
-
+        if (window.innerWidth < width) {
+          setWidth(window.innerWidth * 0.75)
+        }
       }, 200)
     }
     window.addEventListener('resize', listener)
