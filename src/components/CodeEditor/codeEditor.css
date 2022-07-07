@@ -8,7 +8,7 @@
 .format-btn {
     position: absolute;
     top: 5px;
-    right: 5px;
+    right: 25px;
     z-index: 200;
     opacity: 0;
     transition: opacity 0.3s;
