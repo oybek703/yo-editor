@@ -6,7 +6,7 @@ import TextEditor from './components/TextEditor'
 // import CodeCell from './components/CodeCell'
 
 function App() {
-  return <div>
+  return <div className='m-4 p-4'>
     {/*<CodeCell/>*/}
     <TextEditor/>
   </div>
