@@ -1,5 +1,5 @@
 import './resizable.css'
-import React, {PropsWithChildren} from 'react'
+import React, {PropsWithChildren, useEffect, useState} from 'react'
 import {ResizableBox, ResizableBoxProps} from 'react-resizable'
 
 interface ResizableProps {
@@ -7,11 +7,14 @@ interface ResizableProps {
 }
 
 const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({direction, children}) => {
+  const [innerHeight, setInnerHeight] = useState(window.innerHeight)
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth)
+  const [width, setWidth] = useState(window.innerWidth * 0.75)
   let resizableProps: ResizableBoxProps
   if (direction === 'vertical') {
     resizableProps = {
       minConstraints: [Infinity, 24],
-      maxConstraints: [Infinity, window.innerHeight * 0.9],
+      maxConstraints: [Infinity, innerHeight * 0.9],
       height: 300,
       width: Infinity,
       resizeHandles: ['s']
@@ -19,13 +22,31 @@ const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({
   } else {
     resizableProps = {
       className: 'resize-horizontal',
-      minConstraints: [window.innerWidth * 0.2, Infinity],
-      maxConstraints: [window.innerWidth * 0.75, Infinity],
+      minConstraints: [innerWidth * 0.2, Infinity],
+      maxConstraints: [innerWidth * 0.75, Infinity],
       height: Infinity,
-      width: window.innerWidth * 0.75,
-      resizeHandles: ['e']
+      width: width,
+      resizeHandles: ['e'],
+      onResizeStop: function(_, data) {
+        setWidth(data.size.width)
+      }
     }
   }
+  useEffect(() => {
+    const listener = function() {
+      let timer: any
+      if(timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        setInnerHeight(window.innerHeight)
+        setInnerWidth(window.innerWidth)
+
+      }, 200)
+    }
+    window.addEventListener('resize', listener)
+    return function() {
+      window.removeEventListener('resize', listener)
+    }
+  }, [])
   return (
       <ResizableBox {...resizableProps}>
         {children}
