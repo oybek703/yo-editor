@@ -6,13 +6,15 @@ import Resizable from '../Resizable'
 
 function CodeCell() {
   const [code, setCode] = useState<string>('')
+  const [error, setError] = useState<string>('')
   const [input, setInput] = useState<string>('')
 
   useEffect(() => {
     let timer: any
     timer = setTimeout(async () => {
-      const output = await bundle(input)
-      setCode(output)
+      const {code, error: bundleError} = await bundle(input)
+      setCode(code)
+      setError(String(bundleError))
     }, 1000)
     return clearTimeout.bind(null, timer)
   }, [input])
@@ -28,7 +30,7 @@ function CodeCell() {
         <CodeEditor handleChange={(value => value && setInput(value))}
                     value={input}/>
       </Resizable>
-      <Preview code={code}/>
+      <Preview code={code} error={error}/>
     </div>
   </Resizable>
 }

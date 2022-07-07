@@ -13,14 +13,18 @@ async function initializeEsBuild() {
 }
 
 async function build(rawCode: string) {
-  const {outputFiles: [obj1]} = await esbuild.build({
-    entryPoints: ['index.js'],
-    bundle: true,
-    write: false,
-    plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)]
-  })
-  const {text: generatedCode} = obj1
-  return generatedCode
+  try {
+    const {outputFiles: [obj1]} = await esbuild.build({
+      entryPoints: ['index.js'],
+      bundle: true,
+      write: false,
+      plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)]
+    })
+    const {text: generatedCode} = obj1
+    return {code: generatedCode, error: ''}
+  } catch (e) {
+    return {code: '', error: e}
+  }
 }
 
 export default async function bundle(rawCode: string) {

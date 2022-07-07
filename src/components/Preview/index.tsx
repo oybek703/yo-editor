@@ -3,19 +3,20 @@ import React, {useEffect, useRef} from 'react'
 
 interface PreviewProps {
   code: string,
-  title?: string
+  title?: string,
+  error: string
 }
 
 const html = `<html lang="en">
               <head>
               <title>Preview</title>
-              <style>html{ background-color: white}</style>
+              <style>html {background-color: white;}</style>
               </head>
               <body><div id="root"/></body>
               <script>
                   function handleError(error) {
                     const root = document.querySelector('#root')
-                    root.innerHTML = '<div style="color: red;"><h4>Error</h4>' + error + '</div>'
+                    root.innerHTML = '<div style="color: red; font-family: sans-serif;"><h4>Error</h4>' + error + '</div>'
                     console.error(e)
                   }
                   window.addEventListener('error', (event) => {
@@ -32,7 +33,7 @@ const html = `<html lang="en">
                   </script>
               </html> `
 
-const Preview: React.FC<PreviewProps> = ({code}) => {
+const Preview: React.FC<PreviewProps> = ({code, error}) => {
   const iframe = useRef<any>(null)
   useEffect(() => {
     iframe.current.srcdoc = html
@@ -44,6 +45,7 @@ const Preview: React.FC<PreviewProps> = ({code}) => {
       <div className='preview-wrapper'>
         <iframe title="preview"
                 sandbox="allow-scripts" ref={iframe} srcDoc={html}/>
+        {error && <div className='preview-error'>{error}</div>}
       </div>
   )
 }
