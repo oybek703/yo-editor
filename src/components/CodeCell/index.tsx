@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Preview from '../Preview'
 import CodeEditor from '../CodeEditor'
 import bundle from '../../bundler'
@@ -8,11 +8,14 @@ function CodeCell() {
   const [code, setCode] = useState<string>('')
   const [input, setInput] = useState<string>('')
 
-  // eslint-disable-next-line
-  async function handleSubmit() {
-    const output = await bundle(input)
-    setCode(output)
-  }
+  useEffect(() => {
+    let timer: any
+    timer = setTimeout(async () => {
+      const output = await bundle(input)
+      setCode(output)
+    }, 1000)
+    return clearTimeout.bind(null, timer)
+  }, [input])
 
   return <Resizable direction='vertical'>
     <div style={{
@@ -24,7 +27,6 @@ function CodeCell() {
       <Resizable direction='horizontal'>
         <CodeEditor handleChange={(value => value && setInput(value))}
                     value={input}/>
-        {/*<button onClick={handleSubmit}>Submit</button>*/}
       </Resizable>
       <Preview code={code}/>
     </div>

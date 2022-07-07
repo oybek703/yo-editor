@@ -28,7 +28,6 @@ const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({
       width: width,
       resizeHandles: ['e'],
       onResizeStop: function(_, data) {
-        console.log(data.size.width)
         setWidth(data.size.width)
       }
     }
@@ -49,7 +48,7 @@ const Resizable: React.FunctionComponent<PropsWithChildren<ResizableProps>> = ({
     return function() {
       window.removeEventListener('resize', listener)
     }
-  }, [])
+  }, [width])
   return (
       <ResizableBox {...resizableProps}>
         {children}
