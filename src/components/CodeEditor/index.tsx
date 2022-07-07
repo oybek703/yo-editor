@@ -59,7 +59,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({defaultValue, value, handleChang
               automaticLayout: true
             }}
             theme='vs-dark'
-            height='200px'/>
+            height='100%'/>
       </div>
   )
 }
