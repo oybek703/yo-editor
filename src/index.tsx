@@ -6,8 +6,8 @@ import {fetchPlugin} from './plugins/fetch-plugin'
 
 function App() {
   const ref = useRef<any>(null)
+  const iframe = useRef<any>(null)
   const [input, setInput] = useState<string>('')
-  const [code, setCode] = useState<string>('')
 
   async function startService() {
     await esbuild.initialize({
@@ -19,31 +19,39 @@ function App() {
 
   async function handleSubmit() {
     if (ref.current) {
+      iframe.current.srcdoc = html
       const {outputFiles: [obj1]} = await esbuild.build({
         entryPoints: ['index.js'],
         bundle: true,
         write: false,
-        plugins: [unpkgPathPlugin(), fetchPlugin(input)]
+        plugins: [unpkgPathPlugin(), fetchPlugin(input)],
       })
       const {text: generatedCode} = obj1
-      setCode(generatedCode)
+      iframe.current.contentWindow.postMessage(generatedCode, '*')
     }
   }
 
+  const html = `<html><head/><body><div id="root"/></body><script>
+        window.addEventListener('message', event => {
+          try {
+            eval(event.data)
+          } catch (e) {
+            const root = document.querySelector('#root')
+            root.innerHTML = '<div style="color: red;"><h4>Error</h4>' +e + '</div>'
+            console.error(e)
+          }
+        }, false)
+  </script></html> `
   useEffect(() => {
     startService()
   }, [])
   return <div>
-    <textarea rows={3} cols={30} value={input} onChange={({target: {value}}) => setInput(value)}/>
+    <textarea rows={8} cols={50} value={input}
+              onChange={({target: {value}}) => setInput(value)}/>
     <br/>
     <button onClick={handleSubmit}>Submit</button>
     <hr/>
-    {code && <pre style={{
-      maxWidth: '90vw',
-      maxHeight: '90hv',
-      overflowX: 'scroll',
-      overflowY: 'scroll'
-    }}>{code}</pre>}
+    <iframe title="preview" sandbox="allow-scripts" ref={iframe} srcDoc={html}/>
   </div>
 }
 
