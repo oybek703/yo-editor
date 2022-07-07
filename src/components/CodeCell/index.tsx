@@ -8,16 +8,24 @@ function CodeCell() {
   const [code, setCode] = useState<string>('')
   const [input, setInput] = useState<string>('')
 
+  // eslint-disable-next-line
   async function handleSubmit() {
     const output = await bundle(input)
     setCode(output)
   }
 
-  return <Resizable direction='horizontal'>
-    <div style={{height: '100%', display: 'flex', flexDirection: 'row'}}>
-      <CodeEditor handleChange={(value => value && setInput(value))} value={input}/>
-      {/*<button onClick={handleSubmit}>Submit</button>*/}
-      <hr/>
+  return <Resizable direction='vertical'>
+    <div style={{
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      width: '100%'
+    }}>
+      <Resizable direction='horizontal'>
+        <CodeEditor handleChange={(value => value && setInput(value))}
+                    value={input}/>
+        {/*<button onClick={handleSubmit}>Submit</button>*/}
+      </Resizable>
       <Preview code={code}/>
     </div>
   </Resizable>

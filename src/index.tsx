@@ -5,7 +5,7 @@ import React from 'react'
 import CodeCell from './components/CodeCell'
 
 function App() {
-  return <div className='container m-1'>
+  return <div>
     <CodeCell/>
   </div>
 }
