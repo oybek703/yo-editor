@@ -6,6 +6,7 @@
 
 # Temp files
 tasks.txt
+.husky
 
 # dependencies
 /node_modules
