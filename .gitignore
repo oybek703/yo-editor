@@ -4,6 +4,9 @@
 .idea
 .vscode
 
+# Temp files
+tasks.txt
+
 # dependencies
 /node_modules
 /.pnp
