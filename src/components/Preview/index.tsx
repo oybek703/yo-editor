@@ -1,16 +1,16 @@
 import './preview.css'
-import React, {useEffect, useRef} from 'react'
+import React, { useEffect, useRef } from 'react'
 
 interface PreviewProps {
-  code: string,
-  title?: string,
-  error: string
+    code: string,
+    title?: string,
+    error: string
 }
 
 const html = `<html lang="en">
               <head>
               <title>Preview</title>
-              <style>html {background-color: white;}</style>
+              <style>html {background-color: inherit;}</style>
               </head>
               <body><div id="root"/></body>
               <script>
@@ -33,21 +33,21 @@ const html = `<html lang="en">
                   </script>
               </html> `
 
-const Preview: React.FC<PreviewProps> = ({code, error}) => {
-  const iframe = useRef<any>(null)
-  useEffect(() => {
-    iframe.current.srcdoc = html
-    setTimeout(() => {
-      iframe.current.contentWindow.postMessage(code, '*')
-    }, 50)
-  }, [code])
-  return (
-      <div className='preview-wrapper'>
-        <iframe title="preview"
-                sandbox="allow-scripts" ref={iframe} srcDoc={html}/>
-        {error && <div className='preview-error'>{error}</div>}
-      </div>
-  )
+const Preview: React.FC<PreviewProps> = ({ code, error }) => {
+    const iframe = useRef<any>(null)
+    useEffect(() => {
+        iframe.current.srcdoc = html
+        setTimeout(() => {
+            iframe.current.contentWindow.postMessage(code, '*')
+        }, 50)
+    }, [code])
+    return (
+        <div className='preview-wrapper'>
+            <iframe title="preview" sandbox="allow-scripts" ref={iframe}
+                    srcDoc={html}/>
+            {error && <div className='preview-error'>{error}</div>}
+        </div>
+    )
 }
 
 export default Preview

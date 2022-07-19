@@ -34,6 +34,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({defaultValue, value, handleChang
   const handleMount: OnMount = (editor) => {
     monacoEditorRef.current = editor
   }
+
   return (
       <div className='editor-wrapper'>
         {monacoEditorRef.current &&
