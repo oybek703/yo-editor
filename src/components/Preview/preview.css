@@ -2,7 +2,6 @@
     position: relative;
     height: 100%;
     flex-grow: 1;
-    background-color: #eee !important;
 }
 
 .preview-wrapper iframe {

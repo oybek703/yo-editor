@@ -1,11 +1,8 @@
-import {
-  DeleteCellAction, Direction,
-  InsertAfterCellAction,
-  MoveCellAction,
-  UpdateCellAction
-} from '../actions'
-import {ActionType} from '../actionTypes'
-import {CellTypes} from '../cell'
+import { Action, DeleteCellAction, Direction, InsertAfterCellAction, MoveCellAction, UpdateCellAction } from '../actions'
+import { ActionType } from '../actionTypes'
+import { CellTypes } from '../cell'
+import { Dispatch } from 'react'
+import bundle from '../../bundler'
 
 export const updateCell = (id: string, content: string): UpdateCellAction => {
   return {
@@ -39,5 +36,23 @@ export const moveCell = (id: string, direction: Direction): MoveCellAction => {
     payload: {
       id, direction
     }
+  }
+}
+
+export const createBundle = (cellId: string, input: string) => {
+  return async function(dispatch: Dispatch<Action>) {
+      dispatch({
+        type: ActionType.BUNDLE_START,
+        payload: {
+          cellId
+        }
+      })
+    const {code, error} = await bundle(input)
+    dispatch({
+      type: ActionType.BUNDLE_COMPLETE,
+      payload: {
+        cellId, bundle: {code, error}
+      }
+    })
   }
 }

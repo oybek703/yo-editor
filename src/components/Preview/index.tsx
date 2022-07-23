@@ -17,7 +17,7 @@ const html = `<html lang="en">
                   function handleError(error) {
                     const root = document.querySelector('#root')
                     root.innerHTML = '<div style="color: red; font-family: sans-serif;"><h4>Error</h4>' + error + '</div>'
-                    console.error(e)
+                    console.error(error)
                   }
                   window.addEventListener('error', (event) => {
                     event.preventDefault()

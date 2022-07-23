@@ -1,30 +1,34 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import './codeCell.css'
-import Preview from '../Preview'
 import CodeEditor from '../CodeEditor'
-import bundle from '../../bundler'
 import Resizable from '../Resizable'
 import { Cell } from '../../state/cell'
 import useActions from '../../hooks/useActions'
 import ActionBar from '../ActionBar'
+import useTypedSelector from '../../hooks/useTypedSelector'
+import Preview from '../Preview'
+import useCumulativeCode from '../../hooks/useCumulativeCode'
 
 interface CodeCellProps {
     cell: Cell
 }
 
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
-    const [code, setCode] = useState<string>('')
-    const [error, setError] = useState<string>('')
-    const { updateCell } = useActions()
+    const { updateCell, createBundle } = useActions()
+    const bundle = useTypedSelector(state => state.bundles[cell.id])
+    const cumulativeCode = useCumulativeCode(cell.id)
     useEffect(() => {
+        if (!bundle) {
+            createBundle(cell.id, cumulativeCode)
+            return
+        }
         let timer: any
         timer = setTimeout(async () => {
-            const { code, error: bundleError } = await bundle(cell.content)
-            setCode(code)
-            setError(String(bundleError))
+            createBundle(cell.id, cumulativeCode)
         }, 1000)
         return clearTimeout.bind(null, timer)
-    }, [cell.content])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cell.id, cumulativeCode, createBundle])
     return (
         <div className='code-cell-wrapper'>
             <Resizable direction='vertical'>
@@ -36,7 +40,18 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
                                 updateCell(cell.id, value))}
                                         value={cell.content}/>
                         </Resizable>
-                        <Preview code={code} error={error}/>
+                        <div className='progress-wrapper'>
+                            {!bundle || bundle.loading
+                                ?
+                                <progress
+                                    className='progress-bar-animated progress-cover'
+                                    max='100'>
+                                    Loading
+                                </progress>
+                                : <Preview code={bundle.code}
+                                           error={bundle.error}/>
+                            }
+                        </div>
                     </div>
                 </Fragment>
             </Resizable>
