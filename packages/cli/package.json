@@ -1,6 +1,6 @@
 {
   "name": "yo-editor",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "files": [
     "dist"
@@ -17,11 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@yo-editor/local-client": "^1.0.0"
+    "@yo-editor/local-client": "^2.0.0"
   },
   "devDependencies": {
-    "@yo-editor/local-api": "^1.0.0",
     "@types/node": "^18.6.1",
+    "@yo-editor/local-api": "^2.0.0",
     "commander": "^9.4.0",
     "esbuild": "^0.14.50",
     "typescript": "^4.7.4"
