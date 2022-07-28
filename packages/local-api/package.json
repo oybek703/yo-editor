@@ -1,6 +1,6 @@
 {
   "name": "@yoriqulov-editor/local-api",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "files": [
     "dist"
@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@yoriqulov-editor/local-client": "^2.0.4",
+    "@yoriqulov-editor/local-client": "^2.0.5",
     "express": "^4.18.1",
     "http-proxy-middleware": "^2.0.6"
   },
