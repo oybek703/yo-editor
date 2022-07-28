@@ -1,7 +1,25 @@
-export const serve = function (port: number, filename: string, dir: string) {
-    console.group('SERVE')
-    console.log(`Serving server from port ${port}`)
-    console.log(`Fetch cells from ${filename}`)
-    console.log(`Cells file directory ${dir}`)
-    console.groupEnd()
+import express, { Express } from 'express'
+import { dirname } from 'path'
+import { createProxyMiddleware } from 'http-proxy-middleware'
+import createCellsRouter from './routes/cells'
+
+export const serve = function (
+    port: number, filename: string, dir: string, useProxy: boolean) {
+    const app: Express = express()
+    if (useProxy) {
+        app.use(createProxyMiddleware({
+            target: 'http://localhost:3001',
+            ws: true,
+            logLevel: 'silent'
+        }))
+    } else {
+        const packagePath = require.resolve('local-client/build/index.html')
+        app.use(express.static(dirname(packagePath)))
+    }
+
+    app.use(createCellsRouter(filename, dir))
+
+    return new Promise<void>((resolve, reject) => {
+        app.listen(port, resolve).on('error', reject)
+    })
 }

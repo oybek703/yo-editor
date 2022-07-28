@@ -2,7 +2,7 @@
   "name": "local-client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://oybek703.github.io/yo-editor",
+  "homepage": "/",
   "dependencies": {
     "@monaco-editor/react": "^4.4.5",
     "@testing-library/jest-dom": "^5.12.0",
