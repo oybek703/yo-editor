@@ -17,13 +17,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@oybek703/local-client": "^0.1.0"
+    "@oybek703/local-client": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.6.1",
-    "esbuild": "^0.14.50",
-    "typescript": "^4.7.4",
     "@oybek703/local-api": "^1.0.0",
-    "commander": "^9.4.0"
+    "@types/node": "^18.6.1",
+    "commander": "^9.4.0",
+    "esbuild": "^0.14.50",
+    "typescript": "^4.7.4"
   }
 }
