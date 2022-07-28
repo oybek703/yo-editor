@@ -12,13 +12,14 @@ packages/local-client/.husky
 packages/local-client/node_modules
 packages/local-client/.pnp
 packages/local-client/.pnp.js
+**/node_modules/*
 
 # testing
 packages/local-client/coverage
 
 # production
 packages/local-client/build
-
+**/dist/*
 # misc
 packages/local-client/.DS_Store
 packages/local-client/.env.local
