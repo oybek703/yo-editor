@@ -8,8 +8,8 @@ export const fetchPlugin = (inputCode: string) => {
   return {
     name: 'fetch-plugin',
     setup(build: esbuild.PluginBuild) {
-      // Load main index.ts file
-      build.onLoad({filter: /^index\.js$/}, (args: any) => ({loader: 'jsx', contents: inputCode}))
+      // Load main index.js file
+      build.onLoad({filter: /^(index\.js)$/}, (args: any) => ({loader: 'jsx', contents: inputCode}))
 
       // Load module if cached
       build.onLoad({filter: /\.*/}, async (args: any) => {

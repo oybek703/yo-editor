@@ -1,11 +1,16 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import useTypedSelector from '../../hooks/useTypedSelector'
 import CellListItem from '../CellListItem'
 import AddCell from '../AddCell'
+import useActions from '../../hooks/useActions'
 
 const CellList: React.FC = () => {
+    const { fetchCells } = useActions()
     const cells = useTypedSelector(
         ({ cells: { order, data } }) => order.map(id => data[id]))
+    useEffect(() => {
+        fetchCells()
+    }, [fetchCells])
     return (
         <Fragment>
             <AddCell forceVisible={cells.length === 0} beforeCellId={null}/>

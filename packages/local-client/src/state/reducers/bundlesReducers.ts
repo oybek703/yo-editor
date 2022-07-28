@@ -13,10 +13,10 @@ interface BundlesState {
 const initialState: BundlesState = {}
 
 export default produce(function bundles(state: BundlesState = initialState, action: Action): BundlesState {
-    const {type, payload} = action
+    const {type} = action
     switch (type) {
         case ActionType.BUNDLE_START:
-            const {cellId} = payload
+            const {cellId} = action.payload
             state[cellId] = {
                 loading: true,
                 code: '',
@@ -24,7 +24,7 @@ export default produce(function bundles(state: BundlesState = initialState, acti
             }
             return state
         case ActionType.BUNDLE_COMPLETE:
-            const {cellId: bundledCellId, bundle: {code, error}} = payload
+            const {cellId: bundledCellId, bundle: {code, error}} = action.payload
             state[bundledCellId] = {loading: false, code, error}
             return state
         default:

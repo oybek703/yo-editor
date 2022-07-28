@@ -12,8 +12,8 @@ interface Cell {
 const createCellsRouter = function (filename: string, dir: string) {
     const router = Router()
     router.use(express.json())
-    const fullPath = join(filename, dir)
-    router.route('cells').get(async (req: Request, res: Response) => {
+    const fullPath = join(dir, filename)
+    router.route('/cells').get(async (req: Request, res: Response) => {
         try {
             const result = await fs.readFile(fullPath, { encoding: 'utf-8' })
             res.send(JSON.parse(result))

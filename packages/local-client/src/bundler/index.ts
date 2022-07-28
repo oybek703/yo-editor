@@ -20,7 +20,7 @@ interface BundleResult {
 async function build (rawCode: string): Promise<BundleResult> {
     try {
         const { outputFiles: [obj1] } = await esbuild.build({
-            entryPoints: ['index.ts'],
+            entryPoints: ['index.js'],
             bundle: true,
             write: false,
             plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)],
