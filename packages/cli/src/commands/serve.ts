@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import { serve } from '@oybek703/local-api'
+import { serve } from '@yo-editor/local-api'
 import { basename, dirname, join } from 'path'
 import { cwd } from 'process'
 import ErrnoException = NodeJS.ErrnoException

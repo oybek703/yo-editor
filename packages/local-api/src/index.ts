@@ -16,7 +16,7 @@ export const serve = function (
             logLevel: 'silent'
         }))
     } else {
-        const packagePath = require.resolve('@oybek703/local-client/build/index.html')
+        const packagePath = require.resolve('@yo-editor/local-client/build/index.html')
         app.use(express.static(dirname(packagePath)))
     }
 
