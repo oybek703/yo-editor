@@ -4,16 +4,18 @@ This project is open-source
 
 ## How to use
 
-In the project directory, you can run:
+### Directly run and use:
 
 ### `npx yoriqulov-editor serve`
 
-### `npx yoriqulov-editor serve <filename>`
+and you are ready to go.
 
 You can specify which port to run and filename
 for saving your notes.
 
 ### `npx yoriqulov-editor serve myNotes.js`
+
+see `npx yoriqulov-editor serve --help` for more options.
 
 ## Learn More
 

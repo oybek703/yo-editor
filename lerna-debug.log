@@ -1,0 +1,6 @@
+44 error Error: Command failed: git commit -m v2.0.4
+44 error On branch master
+44 error nothing to commit, working tree clean
+44 error
+44 error     at makeError (/usr/local/lib/node_modules/lerna/node_modules/execa/index.js:174:9)
+44 error     at /usr/local/lib/node_modules/lerna/node_modules/execa/index.js:278:16
