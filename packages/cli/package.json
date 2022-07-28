@@ -1,6 +1,6 @@
 {
   "name": "yoriqulov-editor",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "",
   "files": [
     "dist"
@@ -17,11 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@yoriqulov-editor/local-client": "^2.0.1"
+    "@yoriqulov-editor/local-client": "^2.0.2"
   },
   "devDependencies": {
     "@types/node": "^18.6.1",
-    "@yoriqulov-editor/local-api": "^2.0.1",
+    "@yoriqulov-editor/local-api": "^2.0.2",
     "commander": "^9.4.0",
     "esbuild": "^0.14.50",
     "typescript": "^4.7.4"
