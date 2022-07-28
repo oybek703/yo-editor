@@ -1,6 +1,6 @@
 {
   "name": "@yoriqulov-editor/local-client",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "files": [
     "build"
   ],
@@ -67,5 +67,5 @@
       "last 1 safari version"
     ]
   },
-  "gitHead": "c74d4be34b380e8156e8ca4fd54a6d4877998b88"
+  "gitHead": "5219111e67248f6914281383119d64d8ec3ea3c5"
 }
