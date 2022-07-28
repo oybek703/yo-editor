@@ -20,6 +20,7 @@ packages/local-client/coverage
 # production
 packages/local-client/build
 **/dist/*
+**/build/*
 # misc
 packages/local-client/.DS_Store
 packages/local-client/.env.local
